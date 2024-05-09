@@ -35,6 +35,10 @@ export const MobileNavigation = ({ isMenuOpen, onMenuOpenChange }: MobileNavigat
       text: 'Templates',
     },
     {
+      href: `${rootHref}/payrolls`,
+      text: 'Payrolls',
+    },
+    {
       href: '/settings/teams',
       text: 'Teams',
     },

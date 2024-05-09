@@ -53,6 +53,8 @@ model User {
   Webhooks          Webhook[]
   siteSettings      SiteSettings[]
   passkeys          Passkey[]
+  ownedPayrolls     Payroll[]
+  payees            Payee[]
 
   @@index([email])
 }
@@ -464,6 +466,7 @@ model Team {
   templates Template[]
   ApiToken  ApiToken[]
   Webhook   Webhook[]
+  payrolls  Payroll[]
 }
 
 model TeamPending {
@@ -565,4 +568,55 @@ model SiteSettings {
   lastModifiedByUserId Int?
   lastModifiedAt       DateTime @default(now())
   lastModifiedByUser   User?    @relation(fields: [lastModifiedByUserId], references: [id], onDelete: SetNull)
+}
+
+//////////////////////////////////////////////////////////
+//                        Payroll                       //
+//////////////////////////////////////////////////////////
+
+enum PayrollType {
+  PUBLIC
+  PRIVATE
+}
+
+enum PayeeInviteStatus {
+  ACCEPTED
+  PENDING
+}
+
+model Payroll {
+  id          Int           @id @default(autoincrement())
+  type        PayrollType   @default(PRIVATE)
+  title       String
+  ownerUserId Int
+  ownerTeamId Int?
+  payees      Payee[]
+  invites     PayeeInvite[]
+  createdAt   DateTime      @default(now())
+
+  ownerTeam Team? @relation(fields: [ownerTeamId], references: [id], onDelete: Cascade)
+  owner     User  @relation(fields: [ownerUserId], references: [id], onDelete: Cascade)
+}
+
+model Payee {
+  id        Int      @id @default(autoincrement())
+  payrollId Int
+  createdAt DateTime @default(now())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  payroll   Payroll? @relation(fields: [payrollId], references: [id])
+
+  @@unique([userId, payrollId])
+}
+
+model PayeeInvite {
+  id        Int               @id @default(autoincrement())
+  payrollId Int
+  createdAt DateTime          @default(now())
+  email     String
+  status    PayeeInviteStatus @default(PENDING)
+  token     String            @unique
+  payroll   Payroll           @relation(fields: [payrollId], references: [id], onDelete: Cascade)
+
+  @@unique([payrollId, email])
 }

@@ -55,7 +55,7 @@ export const Header = ({ className, user, teams, ...props }: HeaderProps) => {
           href={`${getRootHref(params, { returnEmptyRootString: true })}/documents`}
           className="focus-visible:ring-ring ring-offset-background hidden rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 md:inline"
         >
-          <Logo className="h-6 w-auto" />
+          <Logo className="h-9 w-auto space-x-4" />
         </Link>
 
         <DesktopNav setIsCommandMenuOpen={setIsCommandMenuOpen} />

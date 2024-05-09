@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "Field" ADD COLUMN     "height" INTEGER NOT NULL DEFAULT -1,
-ADD COLUMN     "width" INTEGER NOT NULL DEFAULT -1;

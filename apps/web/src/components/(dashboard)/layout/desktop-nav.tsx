@@ -19,6 +19,10 @@ const navigationLinks = [
     href: '/templates',
     label: 'Templates',
   },
+  {
+    href: '/payrolls',
+    label: 'Payrolls',
+  },
 ];
 
 export type DesktopNavProps = HTMLAttributes<HTMLDivElement> & {
