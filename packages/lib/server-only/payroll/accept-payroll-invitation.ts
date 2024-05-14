@@ -28,6 +28,7 @@ export const acceptPayrollInvitation = async ({
         data: {
           payrollId: payeeInvite.payrollId,
           userId: user.id,
+          documentId: payeeInvite.documentId,
         },
       });
 

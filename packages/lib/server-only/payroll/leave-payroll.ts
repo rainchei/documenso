@@ -35,9 +35,10 @@ export const leavePayroll = async ({ userId, payrollId }: LeavePayrollOptions) =
 
       await tx.payee.delete({
         where: {
-          userId_payrollId: {
+          payrollId_userId_documentId: {
             userId: payroll.payees[0].userId,
             payrollId: payroll.id,
+            documentId: payroll.payees[0].documentId,
           },
         },
       });

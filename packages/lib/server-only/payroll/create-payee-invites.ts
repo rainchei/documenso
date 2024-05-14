@@ -111,8 +111,9 @@ export const createPayeeInvites = async ({
     return true;
   });
 
-  const payeeInvites = usersToInvite.map(({ email }) => ({
+  const payeeInvites = usersToInvite.map(({ email, documentId }) => ({
     email,
+    documentId,
     payrollId,
     status: PayeeInviteStatus.PENDING,
     token: nanoid(32),

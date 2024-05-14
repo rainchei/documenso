@@ -275,7 +275,9 @@ model Document {
   teamId         Int?
   team           Team?               @relation(fields: [teamId], references: [id])
 
-  auditLogs DocumentAuditLog[]
+  auditLogs   DocumentAuditLog[]
+  Payee       Payee[]
+  PayeeInvite PayeeInvite[]
 
   @@unique([documentDataId])
   @@index([userId])
@@ -599,24 +601,28 @@ model Payroll {
 }
 
 model Payee {
-  id        Int      @id @default(autoincrement())
-  payrollId Int
-  createdAt DateTime @default(now())
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  payroll   Payroll? @relation(fields: [payrollId], references: [id])
+  id         Int      @id @default(autoincrement())
+  payrollId  Int
+  documentId Int
+  createdAt  DateTime @default(now())
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  payroll    Payroll  @relation(fields: [payrollId], references: [id])
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, payrollId])
+  @@unique([payrollId, userId, documentId])
 }
 
 model PayeeInvite {
-  id        Int               @id @default(autoincrement())
-  payrollId Int
-  createdAt DateTime          @default(now())
-  email     String
-  status    PayeeInviteStatus @default(PENDING)
-  token     String            @unique
-  payroll   Payroll           @relation(fields: [payrollId], references: [id], onDelete: Cascade)
+  id         Int               @id @default(autoincrement())
+  payrollId  Int
+  documentId Int
+  createdAt  DateTime          @default(now())
+  email      String
+  status     PayeeInviteStatus @default(PENDING)
+  token      String            @unique
+  payroll    Payroll           @relation(fields: [payrollId], references: [id], onDelete: Cascade)
+  document   Document          @relation(fields: [documentId], references: [id], onDelete: Cascade)
 
-  @@unique([payrollId, email])
+  @@unique([payrollId, email, documentId])
 }
