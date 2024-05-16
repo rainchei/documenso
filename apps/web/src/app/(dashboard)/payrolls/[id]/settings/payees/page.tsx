@@ -34,11 +34,7 @@ export default async function PayrollsSettingsPayeesPage({
         <InvitePayeeDialog payrollId={payroll.id} results={results} />
       </SettingsHeader>
 
-      <PayeePageDataTable
-        payrollId={payroll.id}
-        payrollTitle={payroll.title}
-        payrollOwnerUserId={payroll.ownerUserId}
-      />
+      <PayeePageDataTable payrollId={payroll.id} payrollTitle={payroll.title} />
     </div>
   );
 }

@@ -14,6 +14,8 @@ import type { Prisma } from '@documenso/prisma/client';
 import { PayeeInviteStatus } from '@documenso/prisma/client';
 import type { TCreatePayeeInvitesMutationSchema } from '@documenso/trpc/server/payroll-router/schema';
 
+import { getDocumentById } from '../document/get-document-by-id';
+
 export type CreatePayeeInvitesOptions = {
   userId: number;
   teamId?: number;
@@ -111,9 +113,10 @@ export const createPayeeInvites = async ({
     return true;
   });
 
-  const payeeInvites = usersToInvite.map(({ email, documentId }) => ({
+  const payeeInvites = usersToInvite.map(({ email, documentId, amount }) => ({
     email,
     documentId,
+    amount,
     payrollId,
     status: PayeeInviteStatus.PENDING,
     token: nanoid(32),
@@ -124,14 +127,33 @@ export const createPayeeInvites = async ({
   });
 
   const sendEmailResult = await Promise.allSettled(
-    payeeInvites.map(async ({ email, token }) =>
-      sendPayeeInviteEmail({
+    payeeInvites.map(async ({ email, token, documentId, amount }) => {
+      const document = await getDocumentById({
+        id: documentId,
+        userId,
+        teamId,
+      }).catch(() => null);
+
+      if (!document) {
+        console.error('Document not found: ', documentId);
+
+        throw new AppError(
+          'DocumentNotFound',
+          'Failed to get the document by Id.',
+          `Failed to get the document by Id ${documentId}.`,
+        );
+      }
+
+      return sendPayeeInviteEmail({
         email,
         token,
         payrollTitle: payroll.title,
         senderName: userName,
-      }),
-    ),
+        documentTitle: document.title,
+        documentId: document.id,
+        amount,
+      });
+    }),
   );
 
   const sendEmailResultErrorList = sendEmailResult.filter(

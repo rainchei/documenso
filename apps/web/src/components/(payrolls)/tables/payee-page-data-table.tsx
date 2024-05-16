@@ -15,14 +15,14 @@ import { PayeesDataTable } from '~/components/(payrolls)/tables/payees-data-tabl
 export type PayeePageDataTableProps = {
   payrollId: number;
   payrollTitle: string;
-  payrollOwnerUserId: number;
+  teamUrl?: string;
   teamId?: number;
 };
 
 export const PayeePageDataTable = ({
   payrollId,
   payrollTitle,
-  payrollOwnerUserId,
+  teamUrl,
   teamId,
 }: PayeePageDataTableProps) => {
   const searchParams = useSearchParams();
@@ -77,13 +77,18 @@ export const PayeePageDataTable = ({
       </div>
 
       {currentTab === 'invites' ? (
-        <PayeeInvitesDataTable key="invites" payrollId={payrollId} teamId={teamId} />
+        <PayeeInvitesDataTable
+          key="invites"
+          payrollId={payrollId}
+          teamUrl={teamUrl}
+          teamId={teamId}
+        />
       ) : (
         <PayeesDataTable
           key="payees"
           payrollId={payrollId}
           payrollTitle={payrollTitle}
-          payrollOwnerUserId={payrollOwnerUserId}
+          teamUrl={teamUrl}
           teamId={teamId}
         />
       )}

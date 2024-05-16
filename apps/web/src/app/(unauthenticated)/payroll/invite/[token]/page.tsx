@@ -56,7 +56,7 @@ export default async function AcceptInvitationPage({
     },
   });
 
-  // Directly convert the payroll member invite to a payroll member if they already have an account.
+  // Directly convert the payeeInvite to a payee if they already have an account.
   if (user) {
     await acceptPayrollInvitation({ userId: user.id, payrollId: payroll.id });
   }

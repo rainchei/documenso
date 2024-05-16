@@ -1,11 +1,12 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-import { History, MoreHorizontal, Trash2 } from 'lucide-react';
+import { FileSymlink, History, MoreHorizontal, Trash2 } from 'lucide-react';
 
 import { useUpdateSearchParams } from '@documenso/lib/client-only/hooks/use-update-search-params';
 import { ZBaseTableSearchParamsSchema } from '@documenso/lib/types/search-params';
+import { formatDocumentsPath } from '@documenso/lib/utils/teams';
 import { trpc } from '@documenso/trpc/react';
 import { AvatarWithText } from '@documenso/ui/primitives/avatar';
 import { DataTable } from '@documenso/ui/primitives/data-table';
@@ -25,12 +26,19 @@ import { LocaleDate } from '~/components/formatter/locale-date';
 
 export type PayeeInvitesDataTableProps = {
   payrollId: number;
+  teamUrl?: string;
   teamId?: number;
 };
 
-export const PayeeInvitesDataTable = ({ payrollId, teamId }: PayeeInvitesDataTableProps) => {
+export const PayeeInvitesDataTable = ({
+  payrollId,
+  teamUrl,
+  teamId,
+}: PayeeInvitesDataTableProps) => {
   const searchParams = useSearchParams();
   const updateSearchParams = useUpdateSearchParams();
+
+  const router = useRouter();
 
   const { toast } = useToast();
 
@@ -121,6 +129,11 @@ export const PayeeInvitesDataTable = ({ payrollId, teamId }: PayeeInvitesDataTab
           cell: ({ row }) => <LocaleDate date={row.original.createdAt} />,
         },
         {
+          header: 'Amount',
+          accessorKey: 'amount',
+          cell: ({ row }) => row.original.amount,
+        },
+        {
           header: 'Actions',
           cell: ({ row }) => (
             <DropdownMenu>
@@ -130,6 +143,16 @@ export const PayeeInvitesDataTable = ({ payrollId, teamId }: PayeeInvitesDataTab
 
               <DropdownMenuContent className="w-52" align="start" forceMount>
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
+
+                <DropdownMenuItem
+                  onSelect={() =>
+                    router.push(`${formatDocumentsPath(teamUrl)}/${row.original.documentId}`)
+                  }
+                  title="View signed document"
+                >
+                  <FileSymlink className="mr-2 h-4 w-4" />
+                  View Document
+                </DropdownMenuItem>
 
                 <DropdownMenuItem
                   onClick={async () =>

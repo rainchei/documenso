@@ -609,6 +609,7 @@ model Payee {
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   payroll    Payroll  @relation(fields: [payrollId], references: [id])
   document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  amount     Int
 
   @@unique([payrollId, userId, documentId])
 }
@@ -623,6 +624,7 @@ model PayeeInvite {
   token      String            @unique
   payroll    Payroll           @relation(fields: [payrollId], references: [id], onDelete: Cascade)
   document   Document          @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  amount     Int
 
   @@unique([payrollId, email, documentId])
 }

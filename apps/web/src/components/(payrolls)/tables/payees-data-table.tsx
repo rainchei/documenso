@@ -1,12 +1,13 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-import { MoreHorizontal, Trash2 } from 'lucide-react';
+import { FileSymlink, MoreHorizontal, Trash2 } from 'lucide-react';
 
 import { useUpdateSearchParams } from '@documenso/lib/client-only/hooks/use-update-search-params';
 import { ZBaseTableSearchParamsSchema } from '@documenso/lib/types/search-params';
 import { extractInitials } from '@documenso/lib/utils/recipient-formatter';
+import { formatDocumentsPath } from '@documenso/lib/utils/teams';
 import { trpc } from '@documenso/trpc/react';
 import { AvatarWithText } from '@documenso/ui/primitives/avatar';
 import { DataTable } from '@documenso/ui/primitives/data-table';
@@ -26,20 +27,22 @@ import { LocaleDate } from '~/components/formatter/locale-date';
 import { DeletePayeeDialog } from '../dialogs/delete-payee-dialog';
 
 export type PayeesDataTableProps = {
-  payrollOwnerUserId: number;
   payrollId: number;
   payrollTitle: string;
+  teamUrl?: string;
   teamId?: number;
 };
 
 export const PayeesDataTable = ({
-  payrollOwnerUserId,
   payrollId,
   payrollTitle,
+  teamUrl,
   teamId,
 }: PayeesDataTableProps) => {
   const searchParams = useSearchParams();
   const updateSearchParams = useUpdateSearchParams();
+
+  const router = useRouter();
 
   const parsedSearchParams = ZBaseTableSearchParamsSchema.parse(
     Object.fromEntries(searchParams ?? []),
@@ -100,6 +103,11 @@ export const PayeesDataTable = ({
           cell: ({ row }) => <LocaleDate date={row.original.createdAt} />,
         },
         {
+          header: 'Amount',
+          accessorKey: 'amount',
+          cell: ({ row }) => row.original.amount,
+        },
+        {
           header: 'Actions',
           cell: ({ row }) => (
             <DropdownMenu>
@@ -110,6 +118,16 @@ export const PayeesDataTable = ({
               <DropdownMenuContent className="w-52" align="start" forceMount>
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
+                <DropdownMenuItem
+                  onSelect={() =>
+                    router.push(`${formatDocumentsPath(teamUrl)}/${row.original.documentId}`)
+                  }
+                  title="View signed document"
+                >
+                  <FileSymlink className="mr-2 h-4 w-4" />
+                  View Document
+                </DropdownMenuItem>
+
                 <DeletePayeeDialog
                   payrollId={payrollId}
                   payrollTitle={payrollTitle}
@@ -117,11 +135,7 @@ export const PayeesDataTable = ({
                   payeeName={row.original.user.name ?? ''}
                   payeeEmail={row.original.user.email}
                   trigger={
-                    <DropdownMenuItem
-                      onSelect={(e) => e.preventDefault()}
-                      disabled={payrollOwnerUserId === row.original.userId}
-                      title="Remove payee"
-                    >
+                    <DropdownMenuItem onSelect={(e) => e.preventDefault()} title="Remove payee">
                       <Trash2 className="mr-2 h-4 w-4" />
                       Remove
                     </DropdownMenuItem>

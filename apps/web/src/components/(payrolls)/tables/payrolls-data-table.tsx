@@ -3,11 +3,13 @@
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
+import { DollarSign, FileSymlink } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 
 import { useUpdateSearchParams } from '@documenso/lib/client-only/hooks/use-update-search-params';
 import { ZBaseTableSearchParamsSchema } from '@documenso/lib/types/search-params';
 import { trpc } from '@documenso/trpc/react';
+import { cn } from '@documenso/ui/lib/utils';
 import { AvatarWithText } from '@documenso/ui/primitives/avatar';
 import { Button } from '@documenso/ui/primitives/button';
 import { DataTable } from '@documenso/ui/primitives/data-table';
@@ -89,6 +91,20 @@ export const PayrollsDataTable = ({ teamId, payrollRootPath }: PayrollsDataTable
           ),
         },
         {
+          header: 'Amount',
+          accessorKey: 'amount',
+          cell: ({ row }) => {
+            return row.original.currentPayee ? (
+              <span className={cn('flex items-center')}>
+                <DollarSign className={cn('mr-2 inline-block h-4 w-4')} />
+                {row.original.currentPayee.amount}
+              </span>
+            ) : (
+              'N/A'
+            );
+          },
+        },
+        {
           header: 'Type',
           accessorKey: 'type',
           cell: ({ row }) => <PayrollType type={row.original.type} />,
@@ -108,15 +124,24 @@ export const PayrollsDataTable = ({ teamId, payrollRootPath }: PayrollsDataTable
                 )}
 
                 {row.original.currentPayee && (
-                  <LeavePayrollDialog
-                    payrollId={row.original.id}
-                    payrollTitle={row.original.title}
-                    trigger={
-                      <Button variant="destructive" onSelect={(e) => e.preventDefault()}>
-                        Leave
-                      </Button>
-                    }
-                  />
+                  <>
+                    <Button className="flex" asChild>
+                      <Link href={`/documents/${row.original.currentPayee?.documentId}`}>
+                        <FileSymlink className="mr-2 h-4 w-4" />
+                        View Document
+                      </Link>
+                    </Button>
+
+                    <LeavePayrollDialog
+                      payrollId={row.original.id}
+                      payrollTitle={row.original.title}
+                      trigger={
+                        <Button variant="destructive" onSelect={(e) => e.preventDefault()}>
+                          Leave
+                        </Button>
+                      }
+                    />
+                  </>
                 )}
               </div>
             );

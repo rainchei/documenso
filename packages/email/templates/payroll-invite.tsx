@@ -21,6 +21,9 @@ export type PayrollInviteEmailProps = {
   senderName: string;
   payrollTitle: string;
   token: string;
+  documentTitle: string;
+  documentId: number;
+  amount: number;
 };
 
 export const PayrollInviteEmailTemplate = ({
@@ -29,6 +32,9 @@ export const PayrollInviteEmailTemplate = ({
   senderName = 'John Doe',
   payrollTitle = 'Payroll Title',
   token = '',
+  documentTitle,
+  documentId,
+  amount,
 }: PayrollInviteEmailProps) => {
   const previewText = `Accept invitation to join a payroll on Emplying`;
 
@@ -68,7 +74,15 @@ export const PayrollInviteEmailTemplate = ({
                 </Text>
 
                 <Text className="my-1 text-center text-base">
-                  You have been invited to join the following payroll
+                  To fulfill the obligations of signed document
+                </Text>
+
+                <div className="mx-auto my-2 w-fit rounded-lg bg-gray-50 px-4 py-2 text-base font-medium text-slate-600">
+                  {documentTitle}
+                </div>
+
+                <Text className="my-1 text-center text-base">
+                  You have been invited to join payroll
                 </Text>
 
                 <div className="mx-auto my-2 w-fit rounded-lg bg-gray-50 px-4 py-2 text-base font-medium text-slate-600">
@@ -76,8 +90,21 @@ export const PayrollInviteEmailTemplate = ({
                 </div>
 
                 <Text className="my-1 text-center text-base">
+                  with an amount of <span className="text-slate-900">{amount}</span>
+                </Text>
+
+                <Text className="my-1 text-center text-base">
                   by <span className="text-slate-900">{senderName}</span>
                 </Text>
+
+                <Section className="mb-6 mt-6 text-center">
+                  <Button
+                    className="inline-flex items-center justify-center rounded-lg bg-gray-200 px-6 py-3 text-center text-sm font-medium text-black no-underline"
+                    href={`${baseUrl}/documents/${documentId}`}
+                  >
+                    View Document
+                  </Button>
+                </Section>
 
                 <Section className="mb-6 mt-6 text-center">
                   <Button

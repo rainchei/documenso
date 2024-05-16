@@ -23,6 +23,7 @@ export const ZCreatePayeeInvitesMutationSchema = z.object({
     z.object({
       email: z.string().email().toLowerCase(),
       documentId: z.number(),
+      amount: z.number().gt(0),
     }),
   ),
 });

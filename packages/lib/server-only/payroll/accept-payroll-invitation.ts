@@ -29,6 +29,7 @@ export const acceptPayrollInvitation = async ({
           payrollId: payeeInvite.payrollId,
           userId: user.id,
           documentId: payeeInvite.documentId,
+          amount: payeeInvite.amount,
         },
       });
 

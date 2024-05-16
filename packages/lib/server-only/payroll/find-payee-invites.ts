@@ -83,6 +83,8 @@ export const findPayeeInvites = async ({
         payrollId: true,
         email: true,
         createdAt: true,
+        documentId: true,
+        amount: true,
       },
     }),
     prisma.payeeInvite.count({

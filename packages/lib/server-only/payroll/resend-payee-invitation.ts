@@ -2,6 +2,7 @@ import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
 import { prisma } from '@documenso/prisma';
 import type { Prisma } from '@documenso/prisma/client';
 
+import { getDocumentById } from '../document/get-document-by-id';
 import { sendPayeeInviteEmail } from './create-payee-invites';
 
 export type ResendPayeeInvitationOptions = {
@@ -105,11 +106,30 @@ export const resendPayeeInvitation = async ({
         throw new AppError(AppErrorCode.NOT_FOUND, 'No invite exists for this payee.');
       }
 
+      const document = await getDocumentById({
+        id: payeeInvite.documentId,
+        userId,
+        teamId,
+      }).catch(() => null);
+
+      if (!document) {
+        console.error('Document not found: ', payeeInvite.documentId);
+
+        throw new AppError(
+          'DocumentNotFound',
+          'Failed to get the document by Id.',
+          `Failed to get the document by Id ${payeeInvite.documentId}.`,
+        );
+      }
+
       await sendPayeeInviteEmail({
         email: payeeInvite.email,
         token: payeeInvite.token,
         payrollTitle: payroll.title,
         senderName: userName,
+        documentTitle: document.title,
+        documentId: document.id,
+        amount: payeeInvite.amount,
       });
     },
     { timeout: 30_000 },
