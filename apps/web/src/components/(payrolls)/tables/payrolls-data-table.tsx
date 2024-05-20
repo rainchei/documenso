@@ -91,7 +91,7 @@ export const PayrollsDataTable = ({ teamId, payrollRootPath }: PayrollsDataTable
           ),
         },
         {
-          header: 'Amount',
+          header: 'Amount (USDC)',
           accessorKey: 'amount',
           cell: ({ row }) => {
             return row.original.currentPayee ? (

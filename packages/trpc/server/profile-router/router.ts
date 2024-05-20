@@ -9,6 +9,7 @@ import { forgotPassword } from '@documenso/lib/server-only/user/forgot-password'
 import { getUserById } from '@documenso/lib/server-only/user/get-user-by-id';
 import { resetPassword } from '@documenso/lib/server-only/user/reset-password';
 import { sendConfirmationToken } from '@documenso/lib/server-only/user/send-confirmation-token';
+import { updateAddress } from '@documenso/lib/server-only/user/update-address';
 import { updatePassword } from '@documenso/lib/server-only/user/update-password';
 import { updateProfile } from '@documenso/lib/server-only/user/update-profile';
 import { updatePublicProfile } from '@documenso/lib/server-only/user/update-public-profile';
@@ -22,6 +23,7 @@ import {
   ZForgotPasswordFormSchema,
   ZResetPasswordFormSchema,
   ZRetrieveUserByIdQuerySchema,
+  ZUpdateAddressMutationSchema,
   ZUpdatePasswordMutationSchema,
   ZUpdateProfileMutationSchema,
   ZUpdatePublicProfileMutationSchema,
@@ -80,6 +82,28 @@ export const profileRouter = router({
           code: 'BAD_REQUEST',
           message:
             'We were unable to update your profile. Please review the information you provided and try again.',
+        });
+      }
+    }),
+
+  updateAddress: authenticatedProcedure
+    .input(ZUpdateAddressMutationSchema)
+    .mutation(async ({ input, ctx }) => {
+      try {
+        const { address } = input;
+
+        return await updateAddress({
+          userId: ctx.user.id,
+          address,
+          requestMetadata: extractNextApiRequestMetadata(ctx.req),
+        });
+      } catch (err) {
+        console.error(err);
+
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message:
+            'We were unable to update your address. Please connect to a valid wallet and try again.',
         });
       }
     }),

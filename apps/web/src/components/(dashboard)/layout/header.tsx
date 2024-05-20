@@ -5,6 +5,7 @@ import { type HTMLAttributes, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { MenuIcon, SearchIcon } from 'lucide-react';
 
 import type { GetTeamsResponse } from '@documenso/lib/server-only/team/get-teams';
@@ -60,8 +61,17 @@ export const Header = ({ className, user, teams, ...props }: HeaderProps) => {
 
         <DesktopNav setIsCommandMenuOpen={setIsCommandMenuOpen} />
 
-        <div className="flex gap-x-4 md:ml-8">
+        <div className="flex gap-x-4 md:ml-4">
           <MenuSwitcher user={user} teams={teams} />
+        </div>
+
+        <div className="flex md:mr-2">
+          <ConnectButton
+            label="Connect"
+            showBalance={false}
+            accountStatus="avatar"
+            chainStatus="icon"
+          />
         </div>
 
         <div className="flex flex-row items-center space-x-4 md:hidden">

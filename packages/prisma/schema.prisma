@@ -44,6 +44,7 @@ model User {
   twoFactorEnabled     Boolean              @default(false)
   twoFactorBackupCodes String?
   url                  String?              @unique
+  address              String?
 
   userProfile       UserProfile?
   VerificationToken VerificationToken[]
@@ -69,6 +70,7 @@ model UserProfile {
 enum UserSecurityAuditLogType {
   ACCOUNT_PROFILE_UPDATE
   ACCOUNT_SSO_LINK
+  ADDRESS_UPDATE
   AUTH_2FA_DISABLE
   AUTH_2FA_ENABLE
   PASSKEY_CREATED

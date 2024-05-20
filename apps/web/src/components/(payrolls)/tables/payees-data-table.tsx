@@ -103,7 +103,7 @@ export const PayeesDataTable = ({
           cell: ({ row }) => <LocaleDate date={row.original.createdAt} />,
         },
         {
-          header: 'Amount',
+          header: 'Amount (USDC)',
           accessorKey: 'amount',
           cell: ({ row }) => row.original.amount,
         },

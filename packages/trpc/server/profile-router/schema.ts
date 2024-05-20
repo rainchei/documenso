@@ -16,6 +16,10 @@ export const ZUpdateProfileMutationSchema = z.object({
   signature: z.string(),
 });
 
+export const ZUpdateAddressMutationSchema = z.object({
+  address: z.string().min(1),
+});
+
 export const ZUpdatePublicProfileMutationSchema = z.object({
   url: z
     .string()

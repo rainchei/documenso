@@ -17,6 +17,7 @@ import { TooltipProvider } from '@documenso/ui/primitives/tooltip';
 
 import { ThemeProvider } from '~/providers/next-theme';
 import { PostHogPageview } from '~/providers/posthog';
+import { WalletProvider } from '~/providers/wallet';
 
 import './globals.css';
 
@@ -69,7 +70,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <FeatureFlagProvider initialFlags={flags}>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <TooltipProvider>
-                <TrpcProvider>{children}</TrpcProvider>
+                <TrpcProvider>
+                  <WalletProvider>{children}</WalletProvider>
+                </TrpcProvider>
               </TooltipProvider>
             </ThemeProvider>
 
