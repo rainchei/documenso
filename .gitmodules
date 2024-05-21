@@ -1,0 +1,3 @@
+[submodule "crypto-payroll-contract"]
+	path = crypto-payroll-contract
+	url = git@github.com:rainchei/crypto-payroll-contract.git
