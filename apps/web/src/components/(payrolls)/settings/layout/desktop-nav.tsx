@@ -5,7 +5,7 @@ import type { HTMLAttributes } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { Settings, Users } from 'lucide-react';
+import { Settings } from 'lucide-react';
 
 import { formatPayrollsPath } from '@documenso/lib/utils/teams';
 import { cn } from '@documenso/ui/lib/utils';
@@ -27,7 +27,6 @@ export const DesktopNav = ({ params, className, ...props }: DesktopNavProps) => 
   const payrollRootPath = formatPayrollsPath(teamUrl);
 
   const settingsPath = `${payrollRootPath}/${payrollId}/settings`;
-  const payeesPath = `${payrollRootPath}/${payrollId}/settings/payees`;
 
   return (
     <div className={cn('flex flex-col gap-y-2', className)} {...props}>
@@ -38,16 +37,6 @@ export const DesktopNav = ({ params, className, ...props }: DesktopNavProps) => 
         >
           <Settings className="mr-2 h-5 w-5" />
           General
-        </Button>
-      </Link>
-
-      <Link href={payeesPath}>
-        <Button
-          variant="ghost"
-          className={cn('w-full justify-start', pathname?.startsWith(payeesPath) && 'bg-secondary')}
-        >
-          <Users className="mr-2 h-5 w-5" />
-          Payees
         </Button>
       </Link>
     </div>

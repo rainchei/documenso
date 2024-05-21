@@ -3,12 +3,14 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { FileSymlink, MoreHorizontal, Trash2 } from 'lucide-react';
+import { DollarSign } from 'lucide-react';
 
 import { useUpdateSearchParams } from '@documenso/lib/client-only/hooks/use-update-search-params';
 import { ZBaseTableSearchParamsSchema } from '@documenso/lib/types/search-params';
 import { extractInitials } from '@documenso/lib/utils/recipient-formatter';
 import { formatDocumentsPath } from '@documenso/lib/utils/teams';
 import { trpc } from '@documenso/trpc/react';
+import { cn } from '@documenso/ui/lib/utils';
 import { AvatarWithText } from '@documenso/ui/primitives/avatar';
 import { DataTable } from '@documenso/ui/primitives/data-table';
 import { DataTablePagination } from '@documenso/ui/primitives/data-table-pagination';
@@ -98,14 +100,19 @@ export const PayeesDataTable = ({
           },
         },
         {
-          header: 'Payee Since',
+          header: 'Since',
           accessorKey: 'createdAt',
           cell: ({ row }) => <LocaleDate date={row.original.createdAt} />,
         },
         {
           header: 'Amount (USDC)',
           accessorKey: 'amount',
-          cell: ({ row }) => row.original.amount,
+          cell: ({ row }) => (
+            <span className={cn('flex items-center')}>
+              <DollarSign className={cn('mr-2 inline-block h-4 w-4')} />
+              {row.original.amount}
+            </span>
+          ),
         },
         {
           header: 'Actions',

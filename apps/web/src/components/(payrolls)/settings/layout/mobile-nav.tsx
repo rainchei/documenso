@@ -5,7 +5,7 @@ import type { HTMLAttributes } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { Key, User } from 'lucide-react';
+import { User } from 'lucide-react';
 
 import { formatPayrollsPath } from '@documenso/lib/utils/teams';
 import { cn } from '@documenso/ui/lib/utils';
@@ -27,7 +27,6 @@ export const MobileNav = ({ params, className, ...props }: MobileNavProps) => {
   const payrollRootPath = formatPayrollsPath(teamUrl);
 
   const settingsPath = `${payrollRootPath}/${payrollId}/settings`;
-  const payeesPath = `${payrollRootPath}/${payrollId}/settings/payees`;
 
   return (
     <div
@@ -46,16 +45,6 @@ export const MobileNav = ({ params, className, ...props }: MobileNavProps) => {
         >
           <User className="mr-2 h-5 w-5" />
           General
-        </Button>
-      </Link>
-
-      <Link href={payeesPath}>
-        <Button
-          variant="ghost"
-          className={cn('w-full justify-start', pathname?.startsWith(payeesPath) && 'bg-secondary')}
-        >
-          <Key className="mr-2 h-5 w-5" />
-          Payees
         </Button>
       </Link>
     </div>

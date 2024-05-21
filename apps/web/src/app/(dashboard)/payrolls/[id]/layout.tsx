@@ -39,6 +39,12 @@ export default async function PayrollLayout({ params, children }: PayrollLayoutP
     redirect(`${payrollRootPath}/${payrollId}`);
   }
 
+  const isOwner = payroll?.ownerUserId === user.id;
+
+  if (!isOwner) {
+    redirect(`${payrollRootPath}/${payrollId}`);
+  }
+
   return (
     <div className="mx-auto max-w-screen-xl px-4 md:px-8">
       <Link href="/payrolls" className="flex items-center text-[#7AC455] hover:opacity-80">

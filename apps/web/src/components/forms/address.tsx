@@ -54,6 +54,7 @@ export const AddressForm = ({ className, user }: AddressFormProps) => {
 
   const onFormSubmit = async () => {
     try {
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       const address = account.address as string;
 
       await updateAddress({

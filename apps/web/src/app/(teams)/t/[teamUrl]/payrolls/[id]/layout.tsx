@@ -7,6 +7,7 @@ import { ChevronLeft } from 'lucide-react';
 
 import { getRequiredServerComponentSession } from '@documenso/lib/next-auth/get-server-component-session';
 import { getPayrollById } from '@documenso/lib/server-only/payroll/get-payroll';
+import { getTeamByUrl } from '@documenso/lib/server-only/team/get-team';
 import { formatPayrollsPath } from '@documenso/lib/utils/teams';
 
 import { PayrollType } from '~/components/formatter/payroll-type';
@@ -30,6 +31,7 @@ export default async function TeamPayrollLayout({ params, children }: TeamPayrol
   }
 
   const { user } = await getRequiredServerComponentSession();
+  const team = await getTeamByUrl({ userId: user.id, teamUrl });
 
   const payroll = await getPayrollById({
     id: payrollId,
@@ -37,6 +39,12 @@ export default async function TeamPayrollLayout({ params, children }: TeamPayrol
   }).catch(() => null);
 
   if (!payroll) {
+    redirect(`${payrollRootPath}/${payrollId}`);
+  }
+
+  const isOwnerTeamMember = payroll?.ownerTeamId === team.id;
+
+  if (!isOwnerTeamMember) {
     redirect(`${payrollRootPath}/${payrollId}`);
   }
 
