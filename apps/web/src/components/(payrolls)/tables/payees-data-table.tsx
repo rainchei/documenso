@@ -105,7 +105,7 @@ export const PayeesDataTable = ({
           cell: ({ row }) => <LocaleDate date={row.original.createdAt} />,
         },
         {
-          header: 'Amount (USDC)',
+          header: 'Amount',
           accessorKey: 'amount',
           cell: ({ row }) => (
             <span className={cn('flex items-center')}>

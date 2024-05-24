@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { isAddress } from 'viem';
 import { useAccount } from 'wagmi';
 import { z } from 'zod';
 
@@ -24,7 +25,9 @@ import { Input } from '@documenso/ui/primitives/input';
 import { useToast } from '@documenso/ui/primitives/use-toast';
 
 export const ZAddressFormSchema = z.object({
-  address: z.string(),
+  address: z.string().refine((value) => isAddress(value), {
+    message: 'Provided address is invalid.',
+  }),
 });
 
 export type TAddressFormSchema = z.infer<typeof ZAddressFormSchema>;

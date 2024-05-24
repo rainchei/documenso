@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, CircleDollarSign } from 'lucide-react';
 
 import { getRequiredServerComponentSession } from '@documenso/lib/next-auth/get-server-component-session';
 import { getPayrollById } from '@documenso/lib/server-only/payroll/get-payroll';
@@ -57,6 +57,11 @@ export default async function PayrollLayout({ params, children }: PayrollLayoutP
       </h1>
 
       <div className="mt-2.5 flex items-center gap-x-6">
+        <div className="text-muted-foreground flex items-center">
+          <CircleDollarSign className="mr-2 inline-block h-4 w-4" />
+          {payroll.currency}
+        </div>
+
         <PayrollType inheritColor type={payroll.type} className="text-muted-foreground" />
       </div>
 

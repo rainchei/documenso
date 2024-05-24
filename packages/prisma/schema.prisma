@@ -588,10 +588,16 @@ enum PayeeInviteStatus {
   PENDING
 }
 
+enum Currency {
+  MOCK
+  USDC
+}
+
 model Payroll {
   id          Int           @id @default(autoincrement())
   type        PayrollType   @default(PRIVATE)
   title       String
+  currency    Currency
   ownerUserId Int
   ownerTeamId Int?
   payees      Payee[]

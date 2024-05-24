@@ -9,6 +9,11 @@ export type CreatePayrollOptions = TCreatePayrollMutationSchema & {
   title: string;
 
   /**
+   * The currency of the payroll.
+   */
+  currency: string;
+
+  /**
    * The ID of the user who is initiating this action.
    */
   userId: number;
@@ -22,7 +27,7 @@ export type CreatePayrollOptions = TCreatePayrollMutationSchema & {
 /**
  * Create a payroll.
  */
-export const createPayroll = async ({ title, userId, teamId }: CreatePayrollOptions) => {
+export const createPayroll = async ({ title, currency, userId, teamId }: CreatePayrollOptions) => {
   if (teamId) {
     await prisma.team.findFirstOrThrow({
       where: {
@@ -47,6 +52,7 @@ export const createPayroll = async ({ title, userId, teamId }: CreatePayrollOpti
     await prisma.payroll.create({
       data: {
         title,
+        currency,
         ownerUserId: user.id,
         ownerTeamId: teamId,
       },

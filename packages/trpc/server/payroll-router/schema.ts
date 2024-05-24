@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { Currency } from '@documenso/prisma/client';
+
 // Consider refactoring to use ZBaseTableSearchParamsSchema.
 const GenericFindQuerySchema = z.object({
   term: z.string().optional(),
@@ -13,6 +15,7 @@ export const ZAcceptPayrollInvitationMutationSchema = z.object({
 
 export const ZCreatePayrollMutationSchema = z.object({
   title: z.string().min(1).trim(),
+  currency: z.nativeEnum(Currency),
   teamId: z.number().optional(),
 });
 

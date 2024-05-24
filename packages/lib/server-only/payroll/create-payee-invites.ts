@@ -148,6 +148,7 @@ export const createPayeeInvites = async ({
         email,
         token,
         payrollTitle: payroll.title,
+        currency: payroll.currency,
         senderName: userName,
         documentTitle: document.title,
         documentId: document.id,
@@ -194,7 +195,7 @@ export const sendPayeeInviteEmail = async ({
       name: FROM_NAME,
       address: FROM_ADDRESS,
     },
-    subject: `You have been invited to join Payroll - ${emailTemplateOptions.payrollTitle} on Emplying`,
+    subject: `You have been invited to join payroll ${emailTemplateOptions.payrollTitle} on Emplying`,
     html: render(template),
     text: render(template, { plainText: true }),
   });

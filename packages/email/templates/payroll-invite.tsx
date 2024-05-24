@@ -20,6 +20,7 @@ export type PayrollInviteEmailProps = {
   baseUrl: string;
   senderName: string;
   payrollTitle: string;
+  currency: string;
   token: string;
   documentTitle: string;
   documentId: number;
@@ -31,6 +32,7 @@ export const PayrollInviteEmailTemplate = ({
   baseUrl = 'https://emplying.com',
   senderName = 'John Doe',
   payrollTitle = 'Payroll Title',
+  currency,
   token = '',
   documentTitle,
   documentId,
@@ -82,20 +84,19 @@ export const PayrollInviteEmailTemplate = ({
                 </div>
 
                 <Text className="my-1 text-center text-base">
-                  You have been invited to join payroll
+                  <span className="text-slate-900">{senderName}</span> has invited you to join
+                  payroll
                 </Text>
 
                 <div className="mx-auto my-2 w-fit rounded-lg bg-gray-50 px-4 py-2 text-base font-medium text-slate-600">
                   {payrollTitle}
                 </div>
 
-                <Text className="my-1 text-center text-base">
-                  with an amount of <span className="text-slate-900">{amount}</span>
-                </Text>
+                <Text className="my-1 text-center text-base">with an amount of</Text>
 
-                <Text className="my-1 text-center text-base">
-                  by <span className="text-slate-900">{senderName}</span>
-                </Text>
+                <div className="mx-auto my-2 w-fit rounded-lg bg-gray-50 px-4 py-2 text-base font-medium text-slate-600">
+                  {amount} {currency}
+                </div>
 
                 <Section className="mb-6 mt-6 text-center">
                   <Button

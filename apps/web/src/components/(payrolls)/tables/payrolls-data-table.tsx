@@ -18,7 +18,6 @@ import { Skeleton } from '@documenso/ui/primitives/skeleton';
 import { TableCell } from '@documenso/ui/primitives/table';
 
 import { LocaleDate } from '~/components/formatter/locale-date';
-import { PayrollType } from '~/components/formatter/payroll-type';
 
 import { LeavePayrollDialog } from '../dialogs/leave-payroll-dialog';
 
@@ -91,7 +90,12 @@ export const PayrollsDataTable = ({ teamId, payrollRootPath }: PayrollsDataTable
           ),
         },
         {
-          header: 'Amount (USDC)',
+          header: 'Currency',
+          accessorKey: 'currency',
+          cell: ({ row }) => row.original.currency,
+        },
+        {
+          header: 'Amount',
           accessorKey: 'amount',
           cell: ({ row }) => {
             return row.original.currentPayee ? (
@@ -103,11 +107,6 @@ export const PayrollsDataTable = ({ teamId, payrollRootPath }: PayrollsDataTable
               'N/A'
             );
           },
-        },
-        {
-          header: 'Type',
-          accessorKey: 'type',
-          cell: ({ row }) => <PayrollType type={row.original.type} />,
         },
         {
           header: 'Actions',

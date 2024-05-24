@@ -126,6 +126,7 @@ export const resendPayeeInvitation = async ({
         email: payeeInvite.email,
         token: payeeInvite.token,
         payrollTitle: payroll.title,
+        currency: payroll.currency,
         senderName: userName,
         documentTitle: document.title,
         documentId: document.id,

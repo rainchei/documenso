@@ -129,7 +129,7 @@ export const PayeeInvitesDataTable = ({
           cell: ({ row }) => <LocaleDate date={row.original.createdAt} />,
         },
         {
-          header: 'Amount (USDC)',
+          header: 'Amount',
           accessorKey: 'amount',
           cell: ({ row }) => row.original.amount,
         },

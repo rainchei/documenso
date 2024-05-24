@@ -11,6 +11,8 @@ import { useForm } from 'react-hook-form';
 import type { z } from 'zod';
 
 import { useUpdateSearchParams } from '@documenso/lib/client-only/hooks/use-update-search-params';
+import { CURRENCY_MAP } from '@documenso/lib/constants/payroll';
+import { Currency } from '@documenso/prisma/client';
 import { trpc } from '@documenso/trpc/react';
 import { ZCreatePayrollMutationSchema } from '@documenso/trpc/server/payroll-router/schema';
 import { Button } from '@documenso/ui/primitives/button';
@@ -32,6 +34,13 @@ import {
   FormMessage,
 } from '@documenso/ui/primitives/form/form';
 import { Input } from '@documenso/ui/primitives/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@documenso/ui/primitives/select';
 import { useToast } from '@documenso/ui/primitives/use-toast';
 
 export type CreatePayrollDialogProps = {
@@ -41,6 +50,7 @@ export type CreatePayrollDialogProps = {
 
 const ZCreatePayrollFormSchema = ZCreatePayrollMutationSchema.pick({
   title: true,
+  currency: true,
 });
 
 type TCreatePayrollFormSchema = z.infer<typeof ZCreatePayrollFormSchema>;
@@ -59,15 +69,17 @@ export const CreatePayrollDialog = ({ trigger, teamId, ...props }: CreatePayroll
     resolver: zodResolver(ZCreatePayrollFormSchema),
     defaultValues: {
       title: '',
+      currency: Currency.USDC,
     },
   });
 
   const { mutateAsync: createPayroll } = trpc.payroll.createPayroll.useMutation();
 
-  const onFormSubmit = async ({ title }: TCreatePayrollFormSchema) => {
+  const onFormSubmit = async ({ title, currency }: TCreatePayrollFormSchema) => {
     try {
       await createPayroll({
         title,
+        currency,
         teamId,
       });
 
@@ -136,9 +148,35 @@ export const CreatePayrollDialog = ({ trigger, teamId, ...props }: CreatePayroll
                 name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel required>Payroll Title</FormLabel>
+                    <FormLabel required>Title</FormLabel>
                     <FormControl>
                       <Input className="bg-background" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="currency"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel required>Currency</FormLabel>
+                    <FormControl>
+                      <Select {...field} onValueChange={field.onChange}>
+                        <SelectTrigger className="text-muted-foreground max-w-[200px]">
+                          <SelectValue />
+                        </SelectTrigger>
+
+                        <SelectContent position="popper">
+                          {CURRENCY_MAP.map((c) => (
+                            <SelectItem key={c.value} value={c.value}>
+                              {c.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
