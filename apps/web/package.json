@@ -11,7 +11,8 @@
     "e2e:prepare": "next build && next start",
     "lint:fix": "next lint --fix",
     "clean": "rimraf .next && rimraf node_modules",
-    "copy:pdfjs": "node ../../scripts/copy-pdfjs.cjs"
+    "copy:pdfjs": "node ../../scripts/copy-pdfjs.cjs",
+    "abigen": "wagmi generate"
   },
   "dependencies": {
     "@documenso/api": "*",
@@ -67,6 +68,7 @@
     "@types/react": "18.2.18",
     "@types/react-dom": "18.2.7",
     "@types/ua-parser-js": "^0.7.39",
+    "@wagmi/cli": "^2.1.8",
     "typescript": "5.2.2"
   },
   "overrides": {

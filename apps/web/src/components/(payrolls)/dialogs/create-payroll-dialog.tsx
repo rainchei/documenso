@@ -165,7 +165,7 @@ export const CreatePayrollDialog = ({ trigger, teamId, ...props }: CreatePayroll
                     <FormLabel required>Currency</FormLabel>
                     <FormControl>
                       <Select {...field} onValueChange={field.onChange}>
-                        <SelectTrigger className="text-muted-foreground max-w-[200px]">
+                        <SelectTrigger>
                           <SelectValue />
                         </SelectTrigger>
 

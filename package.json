@@ -23,7 +23,8 @@
     "prisma:studio": "npm run with:env -- npm run prisma:studio -w @documenso/prisma",
     "with:env": "dotenv -e .env -e .env.local --",
     "reset:hard": "npm run clean && npm i && npm run prisma:generate",
-    "precommit": "npm install && git add package.json package-lock.json"
+    "precommit": "npm install && git add package.json package-lock.json",
+    "abigen": "turbo run abigen --filter=@documenso/web"
   },
   "engines": {
     "npm": ">=8.6.0",

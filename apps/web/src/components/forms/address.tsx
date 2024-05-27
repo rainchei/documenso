@@ -25,9 +25,7 @@ import { Input } from '@documenso/ui/primitives/input';
 import { useToast } from '@documenso/ui/primitives/use-toast';
 
 export const ZAddressFormSchema = z.object({
-  address: z.string().refine((value) => isAddress(value), {
-    message: 'Provided address is invalid.',
-  }),
+  address: z.string(),
 });
 
 export type TAddressFormSchema = z.infer<typeof ZAddressFormSchema>;
@@ -59,6 +57,10 @@ export const AddressForm = ({ className, user }: AddressFormProps) => {
     try {
       // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       const address = account.address as string;
+
+      if (!isAddress(address)) {
+        throw new Error('Invalid address.');
+      }
 
       await updateAddress({
         address,

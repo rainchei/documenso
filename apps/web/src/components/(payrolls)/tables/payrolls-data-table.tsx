@@ -118,7 +118,7 @@ export const PayrollsDataTable = ({ teamId, payrollRootPath }: PayrollsDataTable
               <div className="flex items-center gap-x-4">
                 {(isOwner || isTeamPayroll) && (
                   <Button variant="outline" asChild>
-                    <Link href={`${payrollRootPath}/${row.original.id}/settings`}>Manage</Link>
+                    <Link href={`${payrollRootPath}/${row.original.id}/settings`}>Settings</Link>
                   </Button>
                 )}
 

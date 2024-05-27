@@ -12,6 +12,7 @@ coverage
 .next/
 out/
 build
+**/generated-abi.ts
 
 # misc
 .DS_Store

@@ -48,10 +48,19 @@ const config = {
       transform: 'lucide-react/dist/esm/icons/{{ kebabCase member }}',
     },
   },
-  webpack: (config, { isServer }) => {
+  webpack: (config, context) => {
     // fixes: Module not found: Can’t resolve ‘../build/Release/canvas.node’
-    if (isServer) {
+    if (context.isServer) {
       config.resolve.alias.canvas = false;
+    }
+
+    // FIX: Module not found: Can't resolve 'pino-pretty', 'encoding'
+    if (config.plugins) {
+      config.plugins.push(
+        new context.webpack.IgnorePlugin({
+          resourceRegExp: /^(pino-pretty|encoding)$/,
+        }),
+      );
     }
 
     return config;

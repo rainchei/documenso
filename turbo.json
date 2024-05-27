@@ -2,13 +2,8 @@
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        ".next/**",
-        "!.next/cache/**"
-      ]
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "!.next/cache/**"]
     },
     "lint": {
       "cache": false
@@ -19,14 +14,15 @@
     "clean": {
       "cache": false
     },
+    "abigen": {
+      "cache": false
+    },
     "dev": {
       "cache": false,
       "persistent": true
     },
     "start": {
-      "dependsOn": [
-        "^build"
-      ],
+      "dependsOn": ["^build"],
       "cache": false,
       "persistent": true
     },
@@ -34,15 +30,11 @@
       "cache": false
     },
     "test:e2e": {
-      "dependsOn": [
-        "^build"
-      ],
+      "dependsOn": ["^build"],
       "cache": false
     }
   },
-  "globalDependencies": [
-    "**/.env.*local"
-  ],
+  "globalDependencies": ["**/.env.*local"],
   "globalEnv": [
     "APP_VERSION",
     "NEXT_PRIVATE_ENCRYPTION_KEY",
@@ -58,6 +50,9 @@
     "NEXT_PUBLIC_STRIPE_ENTERPRISE_PLAN_MONTHLY_PRICE_ID",
     "NEXT_PUBLIC_DISABLE_SIGNUP",
     "NEXT_PUBLIC_DOCUMENT_SIZE_UPLOAD_LIMIT",
+    "NEXT_PUBLIC_UPLOAD_TRANSPORT",
+    "NEXT_PUBLIC_PAYROLL_ENABLE_TESTNET",
+    "NEXT_PUBLIC_PAYROLL_CONTRACT_ADDRESS",
     "NEXT_PRIVATE_DATABASE_URL",
     "NEXT_PRIVATE_DIRECT_DATABASE_URL",
     "NEXT_PRIVATE_SIGNING_TRANSPORT",
@@ -70,7 +65,6 @@
     "NEXT_PRIVATE_SIGNING_GCLOUD_APPLICATION_CREDENTIALS_CONTENTS",
     "NEXT_PRIVATE_GOOGLE_CLIENT_ID",
     "NEXT_PRIVATE_GOOGLE_CLIENT_SECRET",
-    "NEXT_PUBLIC_UPLOAD_TRANSPORT",
     "NEXT_PRIVATE_UPLOAD_ENDPOINT",
     "NEXT_PRIVATE_UPLOAD_FORCE_PATH_STYLE",
     "NEXT_PRIVATE_UPLOAD_REGION",

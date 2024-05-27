@@ -45,7 +45,7 @@ import { EmptyDocumentState } from '~/app/(dashboard)/documents/empty-state';
 
 export type InvitePayeeDialogProps = {
   payrollId: number;
-  results: FindResultSet<
+  documents: FindResultSet<
     Document & {
       Recipient: Recipient[];
       User: Pick<User, 'id' | 'name' | 'email'>;
@@ -92,7 +92,7 @@ type TInvitePayeesFormSchema = z.infer<typeof ZInvitePayeesFormSchema>;
 
 export const InvitePayeeDialog = ({
   payrollId,
-  results,
+  documents,
   trigger,
   teamId,
   ...props
@@ -155,7 +155,7 @@ export const InvitePayeeDialog = ({
         title: 'An unknown error occurred',
         variant: 'destructive',
         description:
-          'We encountered an unknown error while attempting to invite payroll payees. Please try again later.',
+          'We encountered an unknown error while attempting to invite payees. please try again later.',
       });
     }
   };
@@ -173,7 +173,12 @@ export const InvitePayeeDialog = ({
       onOpenChange={(value) => !form.formState.isSubmitting && setOpen(value)}
     >
       <DialogTrigger onClick={(e) => e.stopPropagation()} asChild>
-        {trigger ?? <Button variant="secondary">Invite payee</Button>}
+        {trigger ?? (
+          <Button variant="secondary">
+            <Mail className="mr-2 h-4 w-4" />
+            Invite payee
+          </Button>
+        )}
       </DialogTrigger>
 
       <DialogContent position="center" className="sm:max-w-2xl sm:rounded-2xl">
@@ -185,7 +190,7 @@ export const InvitePayeeDialog = ({
           </DialogDescription>
         </DialogHeader>
 
-        {results.count > 0 && (
+        {documents.count > 0 && (
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onFormSubmit)}>
               <fieldset
@@ -215,7 +220,7 @@ export const InvitePayeeDialog = ({
                                 </SelectTrigger>
 
                                 <SelectContent position="popper">
-                                  {results.data.map((document) => (
+                                  {documents.data.map((document) => (
                                     <SelectItem key={document.id} value={String(document.id)}>
                                       {document.title.trim()}
                                     </SelectItem>
@@ -246,7 +251,7 @@ export const InvitePayeeDialog = ({
                                 </SelectTrigger>
 
                                 <SelectContent position="popper">
-                                  {results.data
+                                  {documents.data
                                     .filter(
                                       (document) =>
                                         String(document.id) ===
@@ -327,7 +332,7 @@ export const InvitePayeeDialog = ({
             </form>
           </Form>
         )}
-        {results.count === 0 && <EmptyDocumentState status="COMPLETED" />}
+        {documents.count === 0 && <EmptyDocumentState status="COMPLETED" />}
       </DialogContent>
     </Dialog>
   );

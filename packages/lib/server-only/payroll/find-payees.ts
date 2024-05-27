@@ -105,6 +105,7 @@ export const findPayees = async ({
           select: {
             name: true,
             email: true,
+            address: true,
           },
         },
       },

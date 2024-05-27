@@ -12,5 +12,8 @@ declare namespace NodeJS {
 
     NEXT_PRIVATE_GOOGLE_CLIENT_ID: string;
     NEXT_PRIVATE_GOOGLE_CLIENT_SECRET: string;
+
+    NEXT_PUBLIC_PAYROLL_ENABLE_TESTNET: boolean;
+    NEXT_PUBLIC_PAYROLL_CONTRACT_ADDRESS: `0x${string}`;
   }
 }
