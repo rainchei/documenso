@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { signIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
@@ -34,9 +34,6 @@ import { Input } from '@documenso/ui/primitives/input';
 import { PasswordInput } from '@documenso/ui/primitives/password-input';
 import { SignaturePad } from '@documenso/ui/primitives/signature-pad';
 import { useToast } from '@documenso/ui/primitives/use-toast';
-
-import { UserProfileSkeleton } from '~/components/ui/user-profile-skeleton';
-import { UserProfileTimur } from '~/components/ui/user-profile-timur';
 
 const SIGN_UP_REDIRECT_PATH = '/documents';
 
@@ -105,16 +102,13 @@ export const SignUpFormV2 = ({
 
   const isSubmitting = form.formState.isSubmitting;
 
-  const name = form.watch('name');
-  const url = form.watch('url');
-
   const { mutateAsync: signup } = trpc.auth.signup.useMutation();
 
   const onFormSubmit = async ({ name, email, password, signature, url }: TSignUpFormV2Schema) => {
     try {
       await signup({ name, email, password, signature, url });
 
-      router.push(`/unverified-account`);
+      router.push(`/signin`);
 
       toast({
         title: 'Registration Successful',
@@ -192,33 +186,6 @@ export const SignUpFormV2 = ({
         </div>
 
         <div className="bg-background/50 absolute -inset-8 -z-[1] backdrop-blur-[2px]" />
-
-        <div className="relative flex h-full w-full flex-col items-center justify-evenly">
-          <div className="bg-background rounded-2xl border px-4 py-1 text-sm font-medium">
-            User profiles are coming soon!
-          </div>
-
-          <AnimatePresence>
-            {step === 'BASIC_DETAILS' ? (
-              <motion.div className="w-full max-w-md" layoutId="user-profile">
-                <UserProfileTimur
-                  rows={2}
-                  className="bg-background border-border rounded-2xl border shadow-md"
-                />
-              </motion.div>
-            ) : (
-              <motion.div className="w-full max-w-md" layoutId="user-profile">
-                <UserProfileSkeleton
-                  user={{ name, url }}
-                  rows={2}
-                  className="bg-background border-border rounded-2xl border shadow-md"
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          <div />
-        </div>
       </div>
 
       <div className="border-border dark:bg-background relative z-10 flex min-h-[min(850px,80vh)] w-full max-w-lg flex-col rounded-xl border bg-neutral-100 p-6">

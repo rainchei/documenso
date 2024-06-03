@@ -1,6 +1,6 @@
 import config from '@documenso/tailwind-config';
 
-import { Body, Container, Head, Html, Img, Preview, Section, Tailwind } from '../components';
+import { Body, Container, Head, Html, Preview, Section, Tailwind } from '../components';
 import type { TemplateConfirmationEmailProps } from '../template-components/template-confirmation-email';
 import { TemplateConfirmationEmail } from '../template-components/template-confirmation-email';
 import { TemplateFooter } from '../template-components/template-footer';
@@ -10,10 +10,6 @@ export const ConfirmEmailTemplate = ({
   assetBaseUrl = 'http://localhost:3002',
 }: TemplateConfirmationEmailProps) => {
   const previewText = `Please confirm your email address`;
-
-  const getAssetUrl = (path: string) => {
-    return new URL(path, assetBaseUrl).toString();
-  };
 
   return (
     <Html>
@@ -32,12 +28,6 @@ export const ConfirmEmailTemplate = ({
           <Section>
             <Container className="mx-auto mb-2 mt-8 max-w-xl rounded-lg border border-solid border-slate-200 p-4 backdrop-blur-sm">
               <Section>
-                <Img
-                  src={getAssetUrl('/static/logo.png')}
-                  alt="Documenso Logo"
-                  className="mb-4 h-6"
-                />
-
                 <TemplateConfirmationEmail
                   confirmationLink={confirmationLink}
                   assetBaseUrl={assetBaseUrl}
