@@ -34,7 +34,8 @@ export default async function AcceptInvitationPage({
           <h1 className="text-4xl font-semibold">Invalid token</h1>
 
           <p className="text-muted-foreground mb-4 mt-2 text-sm">
-            This token is invalid or has expired. Please contact your payroll for a new invitation.
+            This token is invalid or has expired. Please contact your payroll admin for a new
+            invitation.
           </p>
 
           <Button asChild>
@@ -56,8 +57,27 @@ export default async function AcceptInvitationPage({
     },
   });
 
-  // Directly convert the payeeInvite to a payee if they already have an account.
   if (user) {
+    if (!user.address) {
+      return (
+        <div>
+          <h1 className="text-4xl font-semibold">Payroll invitation</h1>
+
+          <p className="text-muted-foreground mt-2 text-sm">
+            You have been invited to join payroll <strong>{payroll.title}</strong>.
+          </p>
+
+          <p className="text-muted-foreground mb-4 mt-1 text-sm">
+            To accept this invitation you must register your wallet address.
+          </p>
+
+          <Button asChild>
+            <Link href={`/settings/profile`}>Register address</Link>
+          </Button>
+        </div>
+      );
+    }
+    // Convert the payeeInvite to a payee if they have an account and address
     await acceptPayrollInvitation({ userId: user.id, payrollId: payroll.id });
   }
 
@@ -85,7 +105,7 @@ export default async function AcceptInvitationPage({
         <h1 className="text-4xl font-semibold">Payroll invitation</h1>
 
         <p className="text-muted-foreground mt-2 text-sm">
-          You have been invited by <strong>{payroll.title}</strong> to join their payroll.
+          You have been invited to join payroll <strong>{payroll.title}</strong>.
         </p>
 
         <p className="text-muted-foreground mb-4 mt-1 text-sm">
@@ -106,7 +126,7 @@ export default async function AcceptInvitationPage({
       <h1 className="text-4xl font-semibold">Invitation accepted!</h1>
 
       <p className="text-muted-foreground mb-4 mt-2 text-sm">
-        You have accepted an invitation from <strong>{payroll.title}</strong> to join their payroll.
+        You have accepted an invitation to join payroll <strong>{payroll.title}</strong>.
       </p>
 
       {isSessionUserTheInvitedUser ? (

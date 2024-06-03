@@ -11,6 +11,7 @@ declare module 'next-auth' {
     name?: PrismaUser['name'];
     email?: PrismaUser['email'];
     emailVerified?: string | null;
+    address?: PrismaUser['address'];
   }
 }
 
@@ -21,5 +22,6 @@ declare module 'next-auth/jwt' {
     email: string | null;
     emailVerified?: string | null;
     lastSignedIn?: string | null;
+    address?: string | null;
   }
 }

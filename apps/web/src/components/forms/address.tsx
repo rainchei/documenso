@@ -103,7 +103,7 @@ export const AddressForm = ({ className, user }: AddressFormProps) => {
             name="address"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Address</FormLabel>
+                <FormLabel>Registered Address</FormLabel>
                 <FormControl>
                   <Input type="text" {...field} className="bg-muted" disabled />
                 </FormControl>

@@ -39,13 +39,13 @@ export default async function TeamPayrollLayout({ params, children }: TeamPayrol
   }).catch(() => null);
 
   if (!payroll) {
-    redirect(`${payrollRootPath}/${payrollId}`);
+    redirect(`${payrollRootPath}`);
   }
 
   const isOwnerTeamMember = payroll?.ownerTeamId === team.id;
 
   if (!isOwnerTeamMember) {
-    redirect(`${payrollRootPath}/${payrollId}`);
+    redirect(`${payrollRootPath}`);
   }
 
   return (

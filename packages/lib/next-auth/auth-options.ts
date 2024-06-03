@@ -119,6 +119,7 @@ export const NEXT_AUTH_OPTIONS: AuthOptions = {
           email: user.email,
           name: user.name,
           emailVerified: user.emailVerified?.toISOString() ?? null,
+          address: user.address ?? null,
         } satisfies User;
       },
     }),
@@ -185,6 +186,7 @@ export const NEXT_AUTH_OPTIONS: AuthOptions = {
                 email: true,
                 name: true,
                 emailVerified: true,
+                address: true,
               },
             },
           },
@@ -240,6 +242,7 @@ export const NEXT_AUTH_OPTIONS: AuthOptions = {
           email: user.email,
           name: user.name,
           emailVerified: user.emailVerified?.toISOString() ?? null,
+          address: user.address ?? null,
         } satisfies User;
       },
     }),
@@ -269,6 +272,7 @@ export const NEXT_AUTH_OPTIONS: AuthOptions = {
         merged.name = retrieved.name;
         merged.email = retrieved.email;
         merged.emailVerified = retrieved.emailVerified?.toISOString() ?? null;
+        merged.address = retrieved.address ?? null;
       }
 
       if (
@@ -312,6 +316,7 @@ export const NEXT_AUTH_OPTIONS: AuthOptions = {
         email: merged.email,
         lastSignedIn: merged.lastSignedIn,
         emailVerified: merged.emailVerified,
+        address: merged.address,
       } satisfies JWT;
     },
 
@@ -324,6 +329,7 @@ export const NEXT_AUTH_OPTIONS: AuthOptions = {
             name: token.name,
             email: token.email,
             emailVerified: token.emailVerified ?? null,
+            address: token.address ?? null,
           },
         } satisfies Session;
       }

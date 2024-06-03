@@ -14,6 +14,7 @@ export const getPayrollInvitations = async ({ email }: GetPayrollInvitationsOpti
         select: {
           id: true,
           title: true,
+          currency: true,
         },
       },
     },
