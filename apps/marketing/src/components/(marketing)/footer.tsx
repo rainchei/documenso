@@ -45,7 +45,7 @@ export const Footer = ({ className, ...props }: FooterProps) => {
           <Link href="/">
             <Image
               src={LogoImage}
-              alt="Documenso Logo"
+              alt="Emplying Logo"
               className="dark:invert"
               width={170}
               height={0}
